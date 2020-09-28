@@ -3,14 +3,26 @@ package com.ualr.simpletasklist;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ualr.simpletasklist.databinding.ActivityMainBinding;
+import com.ualr.simpletasklist.model.Task;
+import com.ualr.simpletasklist.model.TaskList;
+
+import java.security.spec.ECField;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private TaskList taskList;
+    private EditText taskDescriptionInputET;
+    private TextView taskListTV;
+    private EditText taskIdInputET;
     // TODO 05. Add a TaskList member to the MainActivity. Initialize the new member.
 
     @Override
@@ -18,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        taskDescriptionInputET = findViewById(R.id.editTextTextPersonName);
+        taskListTV = findViewById(R.id.taskList);
+        taskIdInputET = findViewById(R.id.editTextTaskId);
+
+        taskList = new TaskList();
 
         //TODO 06.02 Bind the onAddBtnClicked method to the add button, so the onAddBtnClicked is
         // triggered whenever the user clicks on that button
@@ -27,6 +44,36 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO 08.02 Bind the onDoneBtnClicked method to the done button, so the onDoneBtnClicked method is
         // triggered whenever the user clicks on that button
+    }
+
+    public void onAddBtnClicked(View view) {
+        try {
+            taskList.add(taskDescriptionInputET.getText().toString());
+            taskListTV.setText(taskList.toString());
+        }
+        catch(Exception e){
+            //Do nothing
+        }
+    }
+
+    public void onDeleteBtnClicked(View view) {
+        try {
+            taskList.delete(Integer.parseInt(taskIdInputET.getText().toString()));
+            taskListTV.setText(taskList.toString());
+        }
+        catch (Exception e) {
+            //Do nothing
+        }
+    }
+
+    public void onDoneBtnClicked(View view) {
+        try {
+            taskList.markDone(Integer.parseInt(taskIdInputET.getText().toString()));
+            taskListTV.setText(taskList.toString());
+        }
+        catch(Exception e) {
+            //Do nothing
+        }
     }
 
 

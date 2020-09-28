@@ -1,8 +1,58 @@
 package com.ualr.simpletasklist.model;
 
+import com.ualr.simpletasklist.MainActivity;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.lang.StringBuilder;
+
 public class TaskList {
 
-    // TODO 03. Define TaskList's attributes. The class will have just one attribute to store all
+    private Map<Integer, Task> taskList;
+    private int id;
+
+    public TaskList(Map<Integer, Task> taskList) {
+        this.taskList = taskList;
+        this.id = id;
+    }
+
+    public TaskList() {
+        taskList = new HashMap<>();
+        id = 0;
+    }
+
+    public Map<Integer, Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(Map<Integer, Task> taskList) {
+        this.taskList = taskList;
+    }
+
+    public void add(String taskDescription) {
+        if(!taskDescription.isEmpty()) taskList.put(id++, new Task(taskDescription, false));
+    }
+
+    public void delete(int id) {
+        taskList.remove(id);
+    }
+
+    public void markDone(int id) {
+        taskList.get(id).setTaskDone(true);
+    }
+
+    public String toString(){
+        StringBuilder out = new StringBuilder();
+        for(int i = 0; i < taskList.size(); i++) {
+            if(taskList.get(i) == null) continue;
+            out.append( i + " - " + taskList.get(i).taskDescription);
+            if(taskList.get(i).taskDone) out.append(" Done\n");
+            else out.append("\n");
+        }
+        return out.toString();
+    }
+
+// TODO 03. Define TaskList's attributes. The class will have just one attribute to store all
     //  the tasks created by the user.
 
     // TIP. We need a data structure able to dynamically grow and shrink. That's why we'll use a HashMap.
